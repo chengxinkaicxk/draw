@@ -12,14 +12,7 @@
         幸运大抽奖
       </div>
       <div class="m-turntable">
-<!--      <div class="m-zp">-->
-<!--        <span>谢谢参与</span>-->
-<!--        <span>微狗小盲盒（二阶）</span>-->
-<!--        <span>谢谢参与</span>-->
-<!--        <span>微狗小盲三 （一阶）</span>-->
-<!--        <span>谢谢参与</span>-->
-<!--        <span>微狗小盲盒（一阶）</span>-->
-        <draw></draw>
+        <draw @handleLuckyDraw="handleLuckyDraw"></draw>
       </div>
       <div class="m-list">
         <div class="u-list-top">
@@ -49,6 +42,11 @@ export default {
   name: 'App',
   components: {
     Draw
+  },
+  methods: {
+    handleLuckyDraw () {
+      alert('handleLuckyDraw')
+    }
   }
 }
 </script>

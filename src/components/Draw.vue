@@ -4,7 +4,7 @@
       <span v-for="i in 10 " :key="i" :style="{transform: 'rotate(' + i * 18 + 'deg)',
        '--animation': i % 2 === 0 ? 'light-white-to-yellow 1s linear infinite' : 'light-yellow-to-white 1s linear infinite'}"></span>
     </div>
-    <div class="u-turntable">
+    <div class="u-turntable" :style="turnTableStyleConfig">
       <div class="u-tt-container" v-for="(item,index) in data" :key="item.id" :style="{transform: 'rotate(' + index * 60 + 'deg)'}">
         <div class="u-tt-front">
           <span>{{item.info}}</span>
@@ -12,13 +12,28 @@
         <div class="u-tt-show" :style="{backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FDEBB2'}"></div>
       </div>
     </div>
-    <div class="u-point"></div>
+    <div class="u-pointer" @click="handleLuckyDraw">
+      <div class="u-con">
+        <span>点击</span>
+        <span>抽奖</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Draw',
+  props: {
+    rotateSize: {
+      type: Number,
+      default: 10
+    },
+    rotateTime: {
+      type: Number,
+      default: 3
+    }
+  },
   data () {
     return {
       data: [{
@@ -26,7 +41,7 @@ export default {
         info: '谢谢参与'
       }, {
         id: 2,
-        info: '微狗小盲盒（二阶）'
+        info: '微狗小盲盒（一阶）'
       }, {
         id: 3,
         info: '谢谢参与'
@@ -38,8 +53,35 @@ export default {
         info: '谢谢参与'
       }, {
         id: 6,
-        info: '微狗小盲盒（二阶）'
-      }]
+        info: '微狗小盲盒（三阶）'
+      }],
+      currentDeg: 0,
+      isRunning: false,
+      turnTableStyleConfig: {
+        transform: 'rotate(0deg)',
+        transition: 'all ' + this.rotateTime + 's'
+      }
+    }
+  },
+  methods: {
+    handleLuckyDraw () {
+      if (this.isRunning) {
+        return
+      }
+      this.isRunning = true
+      const randomDeg = Math.floor((Math.random() + this.rotateSize) * 360)
+      // const randomDeg = Math.floor(280)
+      this.currentDeg += randomDeg
+      console.log(randomDeg)
+      console.log(this.currentDeg)
+      this.turnTableStyleConfig.transform = 'rotate(' + this.currentDeg + 'deg)'
+      const index = 6 - Math.floor(((this.currentDeg % 360) + 30) / 60)
+      console.log(index)
+      setTimeout(() => {
+        this.isRunning = false
+        const result = this.data[index]
+        alert(result.info)
+      }, 3000)
     }
   }
 }
@@ -146,6 +188,51 @@ export default {
           background-color #ffffff
           transform-origin 0% 100%
           transform translate(50%,0%) rotate(-60deg) skewX(-30deg)
+        }
+      }
+    }
+    .u-pointer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 130px;
+      height: 130px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background-color: #f0be41;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: -36px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-right: 17.5px solid transparent;
+        border-bottom: 40px solid #f1be41;
+        border-left: 17.5px solid transparent;
+      }
+
+      .u-con {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        box-sizing: border-box;
+        border: 5px solid #f9d977;
+        background-color: #e46d2d;
+
+        span {
+          font-size: 24px;
+          color: #fff;
         }
       }
     }
