@@ -11,13 +11,15 @@
       <div class="m-title">
         幸运大抽奖
       </div>
-      <div class="m-zp">
-        <span>谢谢参与</span>
-        <span>微狗小盲盒（二阶）</span>
-        <span>谢谢参与</span>
-        <span>微狗小盲三 （一阶）</span>
-        <span>谢谢参与</span>
-        <span>微狗小盲盒（一阶）</span>
+      <div class="m-turntable">
+<!--      <div class="m-zp">-->
+<!--        <span>谢谢参与</span>-->
+<!--        <span>微狗小盲盒（二阶）</span>-->
+<!--        <span>谢谢参与</span>-->
+<!--        <span>微狗小盲三 （一阶）</span>-->
+<!--        <span>谢谢参与</span>-->
+<!--        <span>微狗小盲盒（一阶）</span>-->
+        <draw></draw>
       </div>
       <div class="m-list">
         <div class="u-list-top">
@@ -42,10 +44,11 @@
 </template>
 
 <script>
-
+import Draw from './components/Draw'
 export default {
   name: 'App',
   components: {
+    Draw
   }
 }
 </script>
@@ -103,6 +106,10 @@ export default {
         font-weight 400
         color #FFFFFF
         line-height 65px
+      }
+      .m-turntable {
+        margin 107px auto 0
+        text-align center
       }
       .m-zp {
         position relative
