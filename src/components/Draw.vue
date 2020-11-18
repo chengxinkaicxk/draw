@@ -4,10 +4,10 @@
       <span v-for="i in 10 " :key="i" :style="{transform: 'rotate(' + i * 18 + 'deg)',
        '--animation': i % 2 === 0 ? 'light-white-to-yellow 1s linear infinite' : 'light-yellow-to-white 1s linear infinite'}"></span>
     </div>
-    <div class="u-turntable" :style="turnTableStyleConfig">
+    <div class="u-turntable" :style="currentDeg === 0 ? '' : turnTableStyleConfig">
       <div class="u-tt-container" v-for="(item,index) in data" :key="item.id" :style="{transform: 'rotate(' + index * 60 + 'deg)'}">
         <div class="u-tt-front">
-          <span>{{item.info}}</span>
+          <span>{{item.text}}</span>
         </div>
         <div class="u-tt-show" :style="{backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#FDEBB2'}"></div>
       </div>
@@ -32,29 +32,14 @@ export default {
     rotateTime: {
       type: Number,
       default: 3
+    },
+    data: {
+      type: Array,
+      default: () => { return [] }
     }
   },
   data () {
     return {
-      data: [{
-        id: 1,
-        info: '谢谢参与'
-      }, {
-        id: 2,
-        info: '微狗小盲盒（一阶）'
-      }, {
-        id: 3,
-        info: '谢谢参与'
-      }, {
-        id: 4,
-        info: '微狗小盲盒（二阶）'
-      }, {
-        id: 5,
-        info: '谢谢参与'
-      }, {
-        id: 6,
-        info: '微狗小盲盒（三阶）'
-      }],
       currentDeg: 0,
       isRunning: false,
       turnTableStyleConfig: {
@@ -70,7 +55,6 @@ export default {
       }
       this.isRunning = true
       const randomDeg = Math.floor((Math.random() + this.rotateSize) * 360)
-      // const randomDeg = Math.floor(280)
       this.currentDeg += randomDeg
       console.log(randomDeg)
       console.log(this.currentDeg)
@@ -79,9 +63,10 @@ export default {
       console.log(index)
       setTimeout(() => {
         this.isRunning = false
-        const result = this.data[index]
-        alert(result.info)
-      }, 3000)
+        // const result = this.data[index]
+        this.$emit('handleLuckyDraw', index)
+        // alert(result.info)
+      }, this.rotateTime * 1000)
     }
   }
 }

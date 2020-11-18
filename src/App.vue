@@ -12,7 +12,7 @@
         幸运大抽奖
       </div>
       <div class="m-turntable">
-        <draw @handleLuckyDraw="handleLuckyDraw"></draw>
+        <draw :data="data"  @handleLuckyDraw="handleLuckyDraw"></draw>
       </div>
       <div class="m-list">
         <div class="u-list-top">
@@ -43,9 +43,44 @@ export default {
   components: {
     Draw
   },
+  data () {
+    return {
+      data: [{
+        id: 1,
+        text: '谢谢参与'
+      }, {
+        id: 2,
+        text: '微狗小盲盒（一阶）'
+      }, {
+        id: 3,
+        text: '谢谢参与'
+      }, {
+        id: 4,
+        text: '微狗小盲盒（二阶）'
+      }, {
+        id: 5,
+        text: '谢谢参与'
+      }, {
+        id: 6,
+        text: '微狗小盲盒（三阶）'
+      }]
+    }
+  },
   methods: {
-    handleLuckyDraw () {
-      alert('handleLuckyDraw')
+    handleLuckyDraw (index) {
+      if ((index + 1) % 2 === 0) {
+        this.$confirm('恭喜您获得奖品【' + this.data[index].text + '】', '消息', {
+          showCancelButton: false,
+          showConfirmButton: false,
+          type: 'success'
+        }).catch(() => {})
+      } else {
+        this.$confirm(this.data[index].text + '，祝您下次好运', '消息', {
+          showCancelButton: false,
+          showConfirmButton: false,
+          type: 'success'
+        }).catch(() => {})
+      }
     }
   }
 }
